@@ -80,13 +80,12 @@ The project uses Hardhat Ignition for deployments. The deployment script will:
 To deploy locally:
 ```bash
 npx hardhat node
+```
+Then in another terminal, run the following command:
+```bash
 npx hardhat run scripts/deploy.js --network localhost
 ```
-
-You can check the local deployment by using the following command:
-```bash
-npx hardhat console --network localhost
-```
+You can always reset the local blockchain by exiting the terminal running the node and restarting it.
 
 To run the scipt for adding liquidity and swapping tokens:
 (Do this after the initial deployment and copying the addresses to the config file)
