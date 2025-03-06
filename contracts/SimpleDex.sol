@@ -43,7 +43,7 @@ contract SimpleDex is ReentrancyGuard {
     event Initialized(address indexed token0, address indexed token1);
 
     /// @notice Initializes the pair with two tokens
-    /// @dev Tokens must be provided in ascending order by address
+    /// @dev Tokens must be provided in ascending order by address (this is done by the factory contract)
     /// @param _token0 Address of token0
     /// @param _token1 Address of token1
     function initialize(address _token0, address _token1) external {
@@ -120,7 +120,7 @@ contract SimpleDex is ReentrancyGuard {
     }
 
     /// @notice Adds liquidity to the pool
-    /// @dev Requires tokens to be added in the correct ratio for non-initial deposits
+    /// @dev Requires tokens to be added in the correct ratio after the initial deposit
     /// @param amount0 Amount of token0 to add
     /// @param amount1 Amount of token1 to add
     /// @return lpAmount Amount of LP tokens minted
