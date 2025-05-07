@@ -31,6 +31,8 @@ contract SimpleDex is ReentrancyGuard {
     uint256 public reserve1;
     bool private initialized;
     LPToken public lpToken;
+
+    mapping(address => bool) public hasLiquidity;
     
     constructor(address _ethAddress) {
         ethAddress = _ethAddress;
@@ -158,6 +160,7 @@ contract SimpleDex is ReentrancyGuard {
         
         lpToken.mint(msg.sender, lpAmount);
         _updateReserves();
+        hasLiquidity[msg.sender] = true;
         
         emit LiquidityAdded(msg.sender, amount0, amount1, lpAmount);
     }
@@ -190,8 +193,15 @@ contract SimpleDex is ReentrancyGuard {
         if (balance1After != balance1 - amount1) revert TransferFailed();
         
         _updateReserves();
+        if (balance0After == 0 && balance1After == 0) {
+            hasLiquidity[msg.sender] = false;
+        }
         
         emit LiquidityRemoved(msg.sender, amount0, amount1, lpAmount);
+    }
+
+    function checkAddressHasLiquidity(address _address) external view returns (bool) {
+        return hasLiquidity[_address];
     }
 
     /// @notice Swaps one token for another using constant product formula
